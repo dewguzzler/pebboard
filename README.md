@@ -1,13 +1,18 @@
-pebboard
-========
-
-Keyboard for the Pebble Watch
+###Pebboard
+###Keyboard for the Pebble watch
 
 
-____
-<h1>How to Type</h1>
+___
+
+####How to Type
+
+;Top Button
+	:Single Tap - Switch Rows
+	:Double Tap - Insert "#"
+	:Long Press - Switch Between Uppercase/Lowercase/Symbols & Numbers
 
 
-____
-<h1>References</h1>
+___
+
+####References
 Originally cloned from tertiary_text
