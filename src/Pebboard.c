@@ -24,7 +24,8 @@ static bool menu = false;
 // Here are the three cases, or sets
 static char caps[] =    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static char letters[] = "abcdefghijklmnopqrstuvwxyz";
-static char numsym[] = "1234567890!?-'$()&*+#:@/,.";
+//static char numsym[] = "1234567890!?-'$()&*+#:@/,.";
+static char numsym[] = "1234567890-=;!@#$%^&*()_+'";
 
 // the below three strings just have to be unique, abc - xyz will be overwritten with the long strings above
 static char* btext1[] = {"a\0","b\0","c\0","d\0","e\0","f\0","g\0","h\0","i\0","j\0","k\0","l\0","m\0"};
@@ -39,7 +40,7 @@ static char set3[4] = "  c\0";
 static char* setlist[] = {set1, set2, set3};
 
 static char* cases[] = {"CAP", "low", "#@1"};
-
+static GBitmap *s_example_bitmap;
 static int cur_set = 1;
 static int cur_row = 0;
 static int cur_column = 0;
@@ -50,6 +51,7 @@ static void drawMenu();
 static void set_menu();
 static void drawNotepadText();
 static GFont custom_font;
+static GFont c_font_14;
 
 
 static char* rotate_text[] = {caps, letters, numsym};
@@ -257,13 +259,23 @@ static void down_long_click_handler(ClickRecognizerRef recognizer, void* context
     if (common_long(BOT)) return;
     
     // delete or cancel when back is held
-      if (text_buffer[pos] != ' ') {
-      text_buffer[pos] = ' ';
-        drawNotepadText();
-	}
-      else { text_buffer[--pos] = ' ';
-	   drawNotepadText();
-	}
+    //  if (text_buffer[pos] != ' ') {
+     // text_buffer[pos] = ' ';
+      //  drawNotepadText();
+	//}
+    //  else { text_buffer[--pos] = ' ';
+	 //  drawNotepadText();
+    for (int i=0; i<140; i++)
+        text_buffer[i] = '\0';
+    pos = 0;
+	text_layer_set_text(wordsYouWrite, text_buffer);
+	GSize max_size = text_layer_get_content_size(wordsYouWrite);
+	scroll_layer_set_content_size(scrollTweets, max_size);
+	int x = max_size.h < 100?100-max_size.h:max_size.h - 100;
+	GPoint diffs = GPoint(0,0- max_size.h);
+        GSize scrolsize = scroll_layer_get_content_size(scrollTweets);
+    drawNotepadText();
+	
 }
 
 static void set_menu()
@@ -300,7 +312,7 @@ static void drawMenu()
         text_layer_set_text(bbuttons[i][2], " ");
         
         text_layer_set_text(bbuttons[i][i==2], cases[i]);
-        text_layer_set_font(bbuttons[i][0], fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+        text_layer_set_font(bbuttons[i][0], c_font_14);
     }
 }
 
@@ -331,7 +343,7 @@ static void drawSides()
             text_layer_set_text(bbuttons[i][2], " ");
             
             text_layer_set_text(bbuttons[i][i==2], btexts[top/9][i]);
-            text_layer_set_font(bbuttons[i][i==2], fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+            text_layer_set_font(bbuttons[i][i==2], fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
         }
         
     } else if (size == 3)
@@ -352,7 +364,7 @@ static void drawSides()
 		text_layer_set_text(bbuttons[h][i], btexts[h][i]);
 		text_layer_set_text_alignment(bbuttons[h][i], GTextAlignmentCenter);
                 text_layer_set_background_color(bbuttons[h][i], GColorClear);
-                text_layer_set_font(bbuttons[h][i], fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD));
+                text_layer_set_font(bbuttons[h][i], c_font_14);
             }
             
         }
@@ -424,6 +436,7 @@ static void window_load(Window* window)
     //  text_layer_set_text(&textLayer, text_buffer);
 //    text_layer_set_background_color(&textLayer, GColorClear);
     custom_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_Roboto_Regular_20));
+    c_font_14 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_Roboto_Regular_14));
     text_layer_set_font(text_layer, custom_font);
     layer_add_child(window_layer, text_layer_get_layer(text_layer));
     initSidesAndText();
@@ -441,12 +454,13 @@ static void init(void) {
     
     if (persist_exists(NOTEPAD_TEXT))
         persist_read_string(NOTEPAD_TEXT, text_buffer, pos+1);
-    
+    s_example_bitmap = gbitmap_create_with_resource(RESOURCE_ID_status_bar_icon);
     window_set_click_config_provider(window, click_config_provider);
     window_set_window_handlers(window, (WindowHandlers) {
         .load = window_load,
         .unload = window_unload,
     });
+    window_set_status_bar_icon(window, s_example_bitmap);
 
     const bool animated = true;
     window_stack_push(window, animated);

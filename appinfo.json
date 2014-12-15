@@ -1,0 +1,40 @@
+{
+  "uuid": "8b1c904f-aac7-4ea8-984a-b15eef0d8d63",
+  "shortName": "Pebboard",
+  "longName": "Pebboard",
+  "companyName": "JPdesigns",
+  "versionCode": 2,
+  "versionLabel": "2.5",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+      {
+        "type": "font",
+        "name": "FONT_Roboto_Regular_20",
+        "file": "fonts/osp-din/Tahoma_18.ttf"
+      },
+      {
+        "type": "font",
+        "name": "FONT_Roboto_Regular_14",
+        "file": "fonts/osp-din/FreePixel_20.ttf"
+      },
+      {
+      	"menuIcon": true,
+      "type": "png",
+      "name": "menuicon",
+      "file": "images/menuicon.png"
+      },
+      {
+      "type": "png",
+      "name": "status_bar_icon",
+      "file": "images/status_bar_icon.png"
+      }
+    ]
+
+  }
+}
