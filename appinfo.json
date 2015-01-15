@@ -3,8 +3,8 @@
   "shortName": "Pebboard",
   "longName": "Pebboard",
   "companyName": "JPdesigns",
-  "versionCode": 2,
-  "versionLabel": "2.5",
+  "versionCode": 1,
+  "versionLabel": "1",
   "watchapp": {
     "watchface": false
   },
@@ -16,6 +16,11 @@
       {
         "type": "font",
         "name": "FONT_Roboto_Regular_20",
+        "file": "fonts/osp-din/Tahoma_18.ttf"
+      },
+      {
+        "type": "font",
+        "name": "FONT_Roboto_Regular_18",
         "file": "fonts/osp-din/Tahoma_18.ttf"
       },
       {
